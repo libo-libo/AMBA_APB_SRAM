@@ -72,5 +72,10 @@ module tb_top();
         // start the test
         run_test();
     end
-    
+    initial begin
+		$fsdbDumpfile("tb_top.fsdb");  //记录波形，波形名字testname.fsdb
+		$fsdbDumpvars(0, "tb_top", "+all");  //+all参数，dump SV中的struct结构体
+		$fsdbDumpSVA();   //将assertion的结果存在fsdb中
+		$fsdbDumpMDA(0, tb_top);  //dump memory arrays
+	end
 endmodule: tb_top
