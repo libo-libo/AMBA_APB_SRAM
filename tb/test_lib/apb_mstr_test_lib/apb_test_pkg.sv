@@ -24,6 +24,7 @@ package apb_test_pkg;
     `include "apb_base_test.sv"
     `include "apb_reg_por_read_test.sv"
     `include "apb_directed_reg_write_read_test.sv"
+    `include "apb_tmp_reg_write_read_test.sv"
     `include "apb_rand_reg_write_read_test.sv"
     `include "apb_reg_alias_test.sv"
     `include "apb_slv_err_test.sv"
