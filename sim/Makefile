@@ -1,15 +1,23 @@
 TOP_NAME=tb_top
 dir := work
+CUSTOM_UVM := off
 UVM_CASE := apb_directed_reg_write_read_test
 SIM_TOOL := vcs
 
 FILE_LIST := ../tb_filelist.f
-VCS_UVMHOME_ARG = $(VCS_HOME)/etc/uvm-1.2
-VCS_UVM_ARGS ?= +define+UVM +incdir+$(VCS_UVMHOME_ARG)/src \
-				$(VCS_UVMHOME_ARG)/src/uvm_pkg.sv +UVM_VERBOSITY=$(VCS_UVM_VERBOSITY) -ntb_opts uvm-1.2
+UVM_VERSION ?= uvm-1.2
+UVM_HOME ?= $(VCS_HOME)/etc/$(UVM_VERSION)
+VCS_UVM_ARGS ?= +define+UVM +incdir+$(UVM_HOME)/src \
+				$(UVM_HOME)/src/uvm_pkg.sv +UVM_VERBOSITY=$(VCS_UVM_VERBOSITY)
+
+ifeq ($(CUSTOM_UVM), on)
+	VCS_UVM_ARGS += $(UVM_HOME)/src/dpi/uvm_dpi.cc
+else
+	VCS_UVM_ARGS += -ntb_opts $(UVM_VERSION)
+endif
 
 VCS_COMP_FLAGS  ?= $(VCS_UVM_ARGS) -kdb -lca  -debug_access+all+r+w+nomemcbk -debug_region+cell -debug_acc+pp+dmptf -debug_region+cell+encrypt -debug_access +vpi -sverilog -timescale=1ns/1ps +v2k \
-				   -assert svaext -race=all -ignore unique_checks -full64 -top $(TOP_NAME)
+				   -assert svaext -race=all -ignore unique_checks -full64 -top $(TOP_NAME) -l cmp.log
 
 VCS_COMP := $(SIM_TOOL) $(VCS_COMP_FLAGS) -file $(FILE_LIST) \
 
@@ -37,4 +45,4 @@ uvm: clean vcs_compile uvm_run
 all: clean vcs_compile vcs_run
 
 clean:
-	@cd $(dir) && rm -rf csrc/ simv.daidir/ simv  *.fsdb*  *.key *.log
+	@rm -rf $(dir)*
