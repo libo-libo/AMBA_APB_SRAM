@@ -1,0 +1,24 @@
+{
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "files.associations": {
+        "*.v": "verilog",
+        "*.sv": "verilog",
+        "*.vh": "verilog",
+        "*.svh": "verilog",
+        "*.svi": "verilog"
+    },
+    "editor.wordWrap": "on",
+    "[systemverilog]": {
+        "editor.wordWrap": "on"
+    },
+   "vim.useCtrlKeys": true,
+   "vim.insertModeKeyBindings": [
+     {
+       "before": ["<C-p>"],
+       "commands": ["editor.action.triggerSuggest"]
+     }
+   ],   
+   "editor.minimap.enabled": false
+}
